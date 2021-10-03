@@ -23,7 +23,7 @@ class CityFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->city,
             'state_id' => State::inRandomOrder()->value('id')
         ];
     }
