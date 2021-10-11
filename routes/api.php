@@ -12,7 +12,7 @@ Route::put('states/{id}', [StateController::class,'update']);
 Route::delete('states/{id}',[StateController::class,'delete']);
 
 Route::get('cities',[CityController::class,'index']);
-Route::get('cities/{id}',[CityController::class,'show']);
+Route::get('cities/{id}',[CityController::class,'count']);
 Route::post('cities',[CityController::class,'store']);
 Route::put('cities/{id}', [CityController::class,'update']);
 Route::delete('cities/{id}',[CityController::class,'delete']);
