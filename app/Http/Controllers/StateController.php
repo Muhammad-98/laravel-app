@@ -13,18 +13,19 @@ class StateController extends Controller
     {
         $state = State::all();
         $StateCount = State::count();
-        return [response()->json(array(["message" => "Number of States is ($StateCount), and this is a list of all states","data" => $state]), 200)];
+        return response()->json(array(["message" => "Number of States is ($StateCount), and this is a list of all states","data" => $state]), 200);
     }
  
     public function show(Request $request)
     {
+        $request->validate(['state_id' => 'exists:states,id']);
         $state = State::find($request->id);
         return response()->json(["message" => "This is state number ($request->id)","data" =>$state], 200);
     }
 
     public function store(Request $request)
     {
-        $request->validate(['name'=> 'required|unique:states']);
+        $request->validate(['name' => 'required|unique:states']);
         $state = State::where('name', '=', $request->input('name'))->first();
         if (isset($state))
         {
@@ -59,6 +60,7 @@ class StateController extends Controller
 
     public function delete(Request $request)
     {
+        $request->validate(['id' => 'exists:states,id']);
         $state = State::find($request->id);
         if (isset($state))
         {

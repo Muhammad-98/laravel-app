@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Area;
-use App\Models\State;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -19,26 +18,9 @@ class CityController extends Controller
 
     public function count(Request $request)
     {
-        $StateCities = City::where('state_id',$request->id)->get();
-        $state = State::where('id','=',$request->id)->first();
+        $request->validate(['state_id' => 'exists:cities,state_id']);
         $count = City::where('state_id',$request->id)->count();
-        if(isset($state))
-        {
-            if($count != 0)
-            {
-                 return response()->json(array(["message" =>"This is number of cities linked to state no. ($request->id)","data" => $count],["message" => "These cities are", "data"=> $StateCities]),200);
-            }
-
-            else
-            {
-                return response()->json(["message" => "State has no cities"], 404);
-            }
-        }
-        
-        else
-        {
-            return response()->json(["message" => "State is not exist"], 404);
-        }
+        return response()->json(["message" =>"This is number of cities linked to state no. ($request->id)","data" => $count],200);
     }
 
     public function store(Request $request)
