@@ -9,18 +9,22 @@ use Illuminate\Http\Request;
 class StateController extends Controller
 {
 
-    public function index()
+    public function count()
     {
         $state = State::all();
-        $StateCount = State::count();
-        return response()->json(array(["message" => "Number of States is ($StateCount), and this is a list of all states","data" => $state]), 200);
+        $StatesCount = State::count();
+        return response()->json(array(["message" => "Number of States is ($StatesCount), and this is a list of all states","data" => $state]), 200);
     }
  
     public function show(Request $request)
     {
-        $request->validate(['state_id' => 'exists:states,id']);
-        $state = State::find($request->id);
-        return response()->json(["message" => "This is state number ($request->id)","data" =>$state], 200);
+        if($request->validate(['id' => 'exists:states,id']))
+        {
+        $stateId = $request->get('id');
+        $state = State::find($stateId);
+        return response()->json(["message" => "This is state number ($stateId)","data" =>$state], 200);
+        }
+        return response()->json(["message" => "State not found"], 404);
     }
 
     public function store(Request $request)
@@ -42,30 +46,26 @@ class StateController extends Controller
 
     public function update(Request $request)
     {
-        $state = State::find($request->id);
-        if (isset($state))
+        if($request->validate(['id' => 'required|exists:states,id','name'=> 'required|unique:states']))
         {
-            $request->validate(['name'=> 'required|unique:states']);
-            $state->name=$request->name;
+            $stateId = $request->get('id');
+            $state = State::find($stateId);
+            $state->name=$request->get('name');
             $state->save();
             return response()->json(["message" => "State Updated Succssfully","data" => $state], 200);
         }
-        
-        else
-        {
             return response()->json(["message" => "State does not exist !"], 404);
-        }
-
     }
 
     public function delete(Request $request)
     {
         $request->validate(['id' => 'exists:states,id']);
-        $state = State::find($request->id);
+        $stateId=$request->get('id');
+        $state = State::find($stateId);
         if (isset($state))
         {
             $StateCities=City::select("state_id")->distinct()->get()->pluck('state_id')->toArray();
-               if(in_array($request->id,$StateCities))
+               if(in_array($stateId,$StateCities))
                {
                  return response()->json(["message" => "Delete operation has been failed,This state has cities","data" => $StateCities], 409);
                }
