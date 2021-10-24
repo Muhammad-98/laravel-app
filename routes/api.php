@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\AddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
  
@@ -17,6 +18,9 @@ Route::get('StateCities',[CityController::class,'count']);
 Route::post('cities',[CityController::class,'store']);
 Route::put('cities', [CityController::class,'update']);
 Route::delete('cities',[CityController::class,'delete']);
+
+Route::get('addresses',[AddressController::class,'list']);
+Route::get('AreaAddresses',[AddressController::class,'count']);
 
 //Route::apiResource('states',StateController::class);
 //Route::apiResource('cities',CityController::class);

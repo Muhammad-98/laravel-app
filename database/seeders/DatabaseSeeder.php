@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\State;
+use App\Models\Address;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        State::factory()
+       /* State::factory()
         ->count(1)
         ->create();   
         
@@ -25,6 +26,10 @@ class DatabaseSeeder extends Seeder
         ->create();
 
         Area::factory()
+        ->count(1)
+        ->create();*/
+
+        Address::factory()
         ->count(1)
         ->create();
     }
