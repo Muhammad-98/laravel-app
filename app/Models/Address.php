@@ -10,7 +10,7 @@ class Address extends Model
     use HasFactory;
     protected $fillable = array('street','building','floor','apartment','landmark');
 
-    public function address()
+    public function area()
     {
         return $this->belongsTo(Area::class);
     }

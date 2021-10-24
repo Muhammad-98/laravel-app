@@ -10,7 +10,7 @@ class Area extends Model
     use HasFactory;
     protected $fillable = array('name','city_id','has_addresses');
 
-    public function address()
+    public function addresses()
     {
         return $this->hasMany(Address::class);
     }
